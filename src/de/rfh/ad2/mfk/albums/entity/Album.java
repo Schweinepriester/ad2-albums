@@ -1,21 +1,25 @@
 package de.rfh.ad2.mfk.albums.entity;
 
+import java.io.Serializable;
+
 /**
  * Created by Kai on 26.06.2014.
  */
-public class Album {
+public class Album implements Serializable{
     private String albumTitle;
     private String genre;
     private String releaseYear;
+    private int trackCount;
 
     public  Album(){
 
     }
-    
-    public Album(String albumTitle, String genre, String releaseYear) {
+
+    public Album(String albumTitle, String genre, String releaseYear, int trackCount) {
         this.albumTitle = albumTitle;
         this.genre = genre;
         this.releaseYear = releaseYear;
+        this.trackCount = trackCount;
     }
 
     public String getAlbumTitle() {
@@ -40,5 +44,9 @@ public class Album {
 
     public void setReleaseYear(String releaseYear) {
         this.releaseYear = releaseYear;
+    }
+
+    public String toString(){
+        return this.getAlbumTitle() + " - " + this.getGenre() + " - " + this.getReleaseYear();
     }
 }
