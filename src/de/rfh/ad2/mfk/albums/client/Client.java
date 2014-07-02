@@ -20,7 +20,7 @@ public class Client {
     public static void main(String[] args) throws RemoteException, NotBoundException, MalformedURLException {
         RmiServer stub = (RmiServer) Naming.lookup("rmi://localhost:1099/rmiServer");
 
-        int userInput = 0;
+        int userInput = 1;
         boolean firstRun = true;
         Scanner scanner = new Scanner(System.in);
         String newLine = "---";
@@ -34,7 +34,7 @@ public class Client {
                 } catch (InputMismatchException e){
                     scanner = new Scanner(System.in);
                     System.out.println("Das war keine Zahl!");
-                    userInput = 0;
+                    userInput = 1;
                 }
                 System.out.println(newLine);
             } else {
@@ -42,33 +42,38 @@ public class Client {
             }
             switch (userInput){
                 case 0:
-                    System.out.println("Menu");
-                    System.out.println("1   Exit");
-                    System.out.println("2   Alben anzeigen");
-                    System.out.println("3   Album eintragen");
-                    break;
-                case 1:
                     System.out.println("Exiting...");
                     userInput = -1;
                     break;
+                case 1:
+                    System.out.println("Menu");
+                    System.out.println("0 Exit");
+                    System.out.println("1 Menu anzeigen");
+                    System.out.println("2 Alben anzeigen");
+                    System.out.println("3 Album eintragen");
+                    break;
                 case 2:
                     System.out.println("Alle Alben:");
+                    System.out.println("ArtistID - Name - AlbumID - Titel - Genre - Erscheinungsjahr - Anzahl Tracks");
+                    System.out.println(newLine);
                     for(Album album : stub.getAlbums()){
                         System.out.println(album.toString());
                     }
                     break;
                 case 3:
-/*                    System.out.print("Albumname: ");
-                    String albumname = null;
-                    albumname = System.in.toString();
+                    scanner.nextLine(); // removing '/n' remaining from nextInt();
+                    System.out.print("Interpret: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Albumname: ");
+                    String albumname = scanner.nextLine();
                     System.out.print("Genre: ");
-                    String genre = scanner.next();
+                    String genre = scanner.nextLine();
                     System.out.print("Erscheinungsjahr: ");
-                    String year = scanner.nextLine();
+                    int year = scanner.nextInt();
                     System.out.print("Trackanzahl: ");
                     int trackcount = scanner.nextInt();
-                    Album album = new Album(albumname, genre, year, trackcount);
-                    stub.saveNewAlbum(album);*/
+                    Album album = new Album(name, albumname, genre, year, trackcount);
+                    System.out.println(stub.saveNewAlbum(album));
                     break;
                 case 42:
                     System.out.println("Easteregg! :)");
@@ -79,7 +84,5 @@ public class Client {
                     break;
                 }
         }
-//      Album album = new Album("Vultures", "Psychdelic Stoner Rock", "2014", 8);
-//      System.out.println(stub.saveNewAlbum(album));
     }
 }
