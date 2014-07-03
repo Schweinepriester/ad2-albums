@@ -2,6 +2,8 @@ package de.rfh.ad2.mfk.albums.server;
 
 import de.rfh.ad2.mfk.albums.entity.Album;
 import de.rfh.ad2.mfk.albums.entity.Artist;
+import de.rfh.ad2.mfk.albums.server.export.ExportFactory;
+import de.rfh.ad2.mfk.albums.server.export.ExportService;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -16,7 +18,7 @@ import java.util.UUID;
  */
 public class RmiServerImpl extends UnicastRemoteObject implements RmiServer {
 
-    private String driver = "org.h2.driver";
+    // private String driver = "org.h2.driver";
     private String uri = "jdbc:h2:tcp://localhost/~/test";
     private String user = "mfk";
     private String pw = "mfk2014";
@@ -110,7 +112,27 @@ public class RmiServerImpl extends UnicastRemoteObject implements RmiServer {
     }
 
     public List<Artist> getArtists() throws RemoteException {
-        // TODO
+        List<Artist> artists = new ArrayList<Artist>();
+        this.createConnection();
+        try {
+            String sql = "SELECT * FROM ARTIST;";
+            Statement statement = con.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()){
+                Artist artist = new Artist(resultSet.getString("ARTISTID"), resultSet.getString("NAME"));
+                artists.add(artist);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        this.closeConnection();
+        return artists;
+    }
+
+    @Override
+    public String export(ExportFactory.ExportType exportType) throws RemoteException{
+        ExportService exportService = ExportFactory.getInstance(exportType);
+        exportService.export(getAlbums(), "C:\\temp_kai\\");
         return null;
     }
 }

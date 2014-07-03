@@ -1,7 +1,9 @@
 package de.rfh.ad2.mfk.albums.client;
 
 import de.rfh.ad2.mfk.albums.entity.Album;
+import de.rfh.ad2.mfk.albums.entity.Artist;
 import de.rfh.ad2.mfk.albums.server.RmiServer;
+import de.rfh.ad2.mfk.albums.server.export.ExportFactory;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -25,6 +27,7 @@ public class Client {
         Scanner scanner = new Scanner(System.in);
         String newLine = "---";
 
+        // TODO catch InputMismatchException everywhere!
         while (userInput > -1){
             if(!firstRun){
                 System.out.println(newLine);
@@ -51,6 +54,8 @@ public class Client {
                     System.out.println("1 Menu anzeigen");
                     System.out.println("2 Alle Alben anzeigen");
                     System.out.println("3 Album eintragen");
+                    System.out.println("4 Alle Interpreten anzeigen");
+                    System.out.println("5 Export");
                     break;
                 case 2:
                     System.out.println("Alle Alben:");
@@ -75,12 +80,74 @@ public class Client {
                     Album album = new Album(name, albumname, genre, year, trackcount);
                     System.out.println(stub.saveNewAlbum(album));
                     break;
+                case 4:
+                    System.out.println("Alle Interpreten:");
+                    System.out.println("ArtistID - Name");
+                    System.out.println(newLine);
+                    for (Artist artist : stub.getArtists()){
+                        System.out.println(artist.toString());
+                    }
+                    break;
+                case 5:
+                    int userInputExport = 1;
+                    boolean firstRunExport = true;
+                    ExportFactory.ExportType exportType = null;
+
+                    while (userInputExport > -1) {
+                        if (!firstRunExport) {
+                            System.out.println(newLine);
+                            System.out.print("Bitte eingeben: ");
+                            try {
+                                userInputExport = scanner.nextInt();
+                            } catch (InputMismatchException e) {
+                                scanner = new Scanner(System.in);
+                                System.out.println("Das war keine Zahl!");
+                                userInputExport = 1;
+                            }
+                            System.out.println(newLine);
+                        } else {
+                            firstRunExport = false;
+                        }
+
+                        switch (userInputExport) {
+                            case 0:
+                                userInputExport = -1;
+                                // showing the main-menu again
+                                userInput = 1;
+                                firstRun = true;
+                                break;
+                            case 1:
+                                System.out.println("Menu > Export");
+                                System.out.println("0 Zurück zum Hauptmenü");
+                                System.out.println("1 Export-Menü anzeigen");
+                                System.out.println("2 Export als JSON");
+                                System.out.println("3 Export als CSV");
+                                System.out.println("4 Export als XML");
+                                System.out.println("5 Datenbankdump mit Daten");
+                                System.out.println("6 Datenbankdump ohne Daten");
+                                break;
+                            case 2:
+                                exportType = ExportFactory.ExportType.JSON;
+                            case 3:
+                            case 4:
+                            case 5:
+                            case 6:
+                                System.out.println("yay");
+                                stub.export(exportType);
+                                break;
+                            default:
+                                firstRunExport = true;
+                                userInputExport = 0;
+                                break;
+                            }
+                    }
+                    break;
                 case 42:
                     System.out.println("Easteregg! :)");
                     break;
                 default:
-                    System.out.println("Exiting...");
-                    userInput = -1;
+                    firstRun = true;
+                    userInput = 0;
                     break;
                 }
         }
