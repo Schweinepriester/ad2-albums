@@ -2,6 +2,7 @@ package de.rfh.ad2.mfk.albums.entity;
 
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,11 +21,15 @@ public class Album implements Serializable{
 
     }
 
-    public Album(String artist, String albumTitle, String genre, int releaseYear, int trackCount) {
+    public Album(String artist, String albumTitle, String genre, String releaseYear, int trackCount) {
         this.artist = new Artist(artist);
         this.albumTitle = albumTitle;
         this.genre = genre;
-        this.releaseYear = new Date(releaseYear);
+        try {
+            this.releaseYear = new SimpleDateFormat("yyyy").parse(releaseYear);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         this.trackCount = trackCount;
     }
 
@@ -88,6 +93,6 @@ public class Album implements Serializable{
     public String toString(){
         // TODO use concat or something?
         SimpleDateFormat format = new SimpleDateFormat("yyyy");
-        return this.artist.toString() + " - " + this.uuid + " - " + this.albumTitle + " - " + this.genre + " - " + format.format(this.releaseYear) + " - " + this.trackCount;
+        return this.artist.toString() + " - " + this.uuid + " - " + this.albumTitle + " - " + this.genre + " - " + format.format(this.releaseYear) + " - " + this.trackCount + " Tracks";
     }
 }

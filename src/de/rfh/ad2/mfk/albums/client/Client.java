@@ -49,7 +49,7 @@ public class Client {
                     System.out.println("Menu");
                     System.out.println("0 Exit");
                     System.out.println("1 Menu anzeigen");
-                    System.out.println("2 Alben anzeigen");
+                    System.out.println("2 Alle Alben anzeigen");
                     System.out.println("3 Album eintragen");
                     break;
                 case 2:
@@ -69,7 +69,7 @@ public class Client {
                     System.out.print("Genre: ");
                     String genre = scanner.nextLine();
                     System.out.print("Erscheinungsjahr: ");
-                    int year = scanner.nextInt();
+                    String year = scanner.nextLine();
                     System.out.print("Trackanzahl: ");
                     int trackcount = scanner.nextInt();
                     Album album = new Album(name, albumname, genre, year, trackcount);

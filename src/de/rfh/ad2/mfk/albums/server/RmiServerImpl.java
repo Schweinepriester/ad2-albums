@@ -6,8 +6,10 @@ import de.rfh.ad2.mfk.albums.entity.Artist;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by Kai on 29.06.2014.
@@ -43,18 +45,48 @@ public class RmiServerImpl extends UnicastRemoteObject implements RmiServer {
 
     public String saveNewAlbum(Album album){
         this.createConnection();
+        String artistID = null;
 
-/*        try {
-            String sql = "INSERT INTO ALBUM(TITLE, GENRE, YEAR, TRACKCOUNT) VALUES(?,?,?,?)";
-            PreparedStatement preparedStatement = con.prepareStatement(sql);
-            preparedStatement.setString(1, album.getAlbumTitle());
-            preparedStatement.setString(2, album.getGenre());
-            preparedStatement.setString(3, album.getReleaseYear());
-            preparedStatement.setInt(4, album.getTrackCount());
-            preparedStatement.execute();
+        try {
+            String sqlCheckArtist = "SELECT * FROM ARTIST WHERE NAME = ?;";
+            PreparedStatement preparedStatementCheckArtist = con.prepareStatement(sqlCheckArtist);
+            preparedStatementCheckArtist.setString(1, album.getArtist().getName());
+            ResultSet resultSetCheckArtist = preparedStatementCheckArtist.executeQuery();
+
+            if(resultSetCheckArtist.next()){
+                artistID = resultSetCheckArtist.getString("ARTISTID");
+                System.out.println("artistID found: " + artistID);
+            } else {
+                String uuid = UUID.randomUUID().toString();
+                String sqlNewArtist = "INSERT INTO ARTIST(ARTISTID, NAME) VALUES(?, ?);";
+                PreparedStatement preparedStatementNewArtist = con.prepareStatement(sqlNewArtist);
+                preparedStatementNewArtist.setString(1, uuid);
+                preparedStatementNewArtist.setString(2, album.getArtist().getName());
+                int affectedRows = preparedStatementNewArtist.executeUpdate();
+
+                if(affectedRows > 0){
+                    artistID = uuid;
+                    System.out.println("artist inserted and artistID generated: " + artistID);
+                }
+            }
+
+            String sqlNewAlbum = "INSERT INTO ALBUM ( ALBUMID , ARTIST , TITLE , GENRE , YEAR , TRACKCOUNT ) VALUES (RANDOM_UUID(),?,?,?,PARSEDATETIME(?, 'yyyy'), ?) ;";
+            PreparedStatement preparedStatementNewAlbum = con.prepareStatement(sqlNewAlbum);
+            preparedStatementNewAlbum.setString(1, artistID);
+            preparedStatementNewAlbum.setString(2, album.getAlbumTitle());
+            preparedStatementNewAlbum.setString(3, album.getGenre());
+            SimpleDateFormat format = new SimpleDateFormat("yyyy");
+            preparedStatementNewAlbum.setString(4, format.format(album.getReleaseYear()));
+            preparedStatementNewAlbum.setInt(5, album.getTrackCount());
+            preparedStatementNewAlbum.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
+
+        // TODO select album to get this output? or somehow the albumid?
+        Artist artist = album.getArtist();
+        artist.setUuid(artistID);
+        album.setArtist(artist);
         return album.toString() + " erfolgreich in die Datenbank geschrieben!";
     }
 
@@ -75,5 +107,10 @@ public class RmiServerImpl extends UnicastRemoteObject implements RmiServer {
         }
         this.closeConnection();
         return albums;
+    }
+
+    public List<Artist> getArtists() throws RemoteException {
+        // TODO
+        return null;
     }
 }
