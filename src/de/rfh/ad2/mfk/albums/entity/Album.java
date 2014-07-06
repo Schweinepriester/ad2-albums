@@ -2,7 +2,6 @@ package de.rfh.ad2.mfk.albums.entity;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

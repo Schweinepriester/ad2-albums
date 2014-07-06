@@ -3,7 +3,6 @@ package de.rfh.ad2.mfk.albums.server;
 import de.rfh.ad2.mfk.albums.entity.Album;
 import de.rfh.ad2.mfk.albums.entity.Artist;
 import de.rfh.ad2.mfk.albums.server.export.ExportFactory;
-import de.rfh.ad2.mfk.albums.server.export.ExportService;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

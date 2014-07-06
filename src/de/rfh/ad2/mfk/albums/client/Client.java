@@ -5,7 +5,6 @@ import de.rfh.ad2.mfk.albums.entity.Artist;
 import de.rfh.ad2.mfk.albums.server.RmiServer;
 import de.rfh.ad2.mfk.albums.server.export.ExportFactory;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
