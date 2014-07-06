@@ -6,6 +6,8 @@ import de.rfh.ad2.mfk.albums.entity.Artist;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,9 +39,11 @@ public class Export2JSON implements ExportService {
 
         String artistAndAlbumJsonString = gson.toJson(artistTree);
 
-        String artistsFile = "artists.json";
-        String albumsFile = "albums.json";
-        String artistsAndAlbumsFile = "artistsAndAlbums.json";
+        Date now = new Date();
+        String stringNow = new SimpleDateFormat("yyyy-MM-dd_HHmm_").format(now);
+        String artistsFile = stringNow.concat("artists.json");
+        String albumsFile = stringNow.concat("albums.json");
+        String artistsAndAlbumsFile = stringNow.concat("artistsAndAlbums.json");
 
         try{
             FileWriter fileWriter1 = new FileWriter(exportPath.concat(artistsFile));
@@ -55,8 +59,9 @@ public class Export2JSON implements ExportService {
             fileWriter3.close();
         } catch (IOException e) {
             e.printStackTrace();
+            return "Fehler beim Exportieren der JSON-Dateien!";
         }
 
-        return null;
+        return "JSON-Export durchgeführt!";
     }
 }

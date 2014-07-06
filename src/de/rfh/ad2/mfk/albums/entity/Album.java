@@ -1,5 +1,6 @@
 package de.rfh.ad2.mfk.albums.entity;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -9,6 +10,7 @@ import java.util.Date;
 /**
  * Created by Kai on 26.06.2014.
  */
+@XmlRootElement
 public class Album implements Serializable{
     private String uuid;
     private Artist artist;
@@ -16,10 +18,6 @@ public class Album implements Serializable{
     private String genre;
     private Date releaseYear;
     private int trackCount;
-
-    public  Album(){
-
-    }
 
     public Album(String artist, String albumTitle, String genre, String releaseYear, int trackCount) {
         this.artist = new Artist(artist);
@@ -41,6 +39,7 @@ public class Album implements Serializable{
         this.releaseYear = releaseYear;
         this.trackCount = trackCount;
     }
+
 
     public String getUuid() {
         return uuid;
@@ -91,8 +90,17 @@ public class Album implements Serializable{
     }
 
     public String toString(){
-        // TODO use concat or something?
         SimpleDateFormat format = new SimpleDateFormat("yyyy");
         return this.artist.toString() + " - " + this.uuid + " - " + this.albumTitle + " - " + this.genre + " - " + format.format(this.releaseYear) + " - " + this.trackCount + " Tracks";
+    }
+
+    public String toCSVString(){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy");
+        return this.artist.toCSVString() + ";" + this.uuid + ";" + this.albumTitle + ";" + this.genre + ";" + format.format(this.releaseYear) + ";" + this.trackCount;
+    }
+
+    public String toCSVStringWithoutArtist(){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy");
+        return this.uuid + ";" + this.albumTitle + ";" + this.genre + ";" + format.format(this.releaseYear) + ";" + this.trackCount;
     }
 }

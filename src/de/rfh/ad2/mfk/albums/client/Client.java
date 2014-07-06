@@ -10,6 +10,9 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -59,11 +62,16 @@ public class Client {
                     System.out.println("5 Export");
                     break;
                 case 2:
-                    System.out.println("Alle Alben:");
-                    System.out.println("ArtistID - Name - AlbumID - Titel - Genre - Erscheinungsjahr - Anzahl Tracks");
-                    System.out.println(newLine);
-                    for(Album album : stub.getAlbums()){
-                        System.out.println(album.toString());
+                    List<Album> albums = stub.getAlbums();
+                    if(albums.isEmpty()){
+                        System.out.println("Keine Alben vorhanden!");
+                    } else {
+                        System.out.println("Alle Alben:");
+                        System.out.println("ArtistID - Name - AlbumID - Titel - Genre - Erscheinungsjahr - Anzahl Tracks");
+                        System.out.println(newLine);
+                        for(Album album : stub.getAlbums()){
+                            System.out.println(album.toString());
+                        }
                     }
                     break;
                 case 3:
@@ -74,20 +82,53 @@ public class Client {
                     String albumname = scanner.nextLine();
                     System.out.print("Genre: ");
                     String genre = scanner.nextLine();
-                    System.out.print("Erscheinungsjahr: ");
-                    String year = scanner.nextLine();
-                    System.out.print("Trackanzahl: ");
-                    int trackcount = scanner.nextInt();
+                    String year = null;
+                    try{
+                        System.out.print("Erscheinungsjahr: ");
+                        year = scanner.nextLine();
+                        Date testDate = new SimpleDateFormat("yyyy").parse(year);
+                    } catch (ParseException e) {
+                        // e.printStackTrace();
+                        scanner = new Scanner(System.in);
+                        System.out.println(newLine);
+                        System.out.println("Das war wohl keine Jahreszahl! Versuchs nochmal :)");
+                        System.out.println(newLine);
+                        firstRun = true;
+                        userInput = 1;
+                        break;
+                    }
+
+                    int trackcount;
+                    try {
+                        System.out.print("Trackanzahl: ");
+                        trackcount = scanner.nextInt();
+                    } catch (InputMismatchException e){
+                        // e.printStackTrace();
+                        scanner = new Scanner(System.in);
+                        System.out.println(newLine);
+                        System.out.println("Das war wohl keine Zahl! Versuchs nochmal :)");
+                        System.out.println(newLine);
+                        firstRun = true;
+                        userInput = 1;
+                        break;
+                    }
+
                     Album album = new Album(name, albumname, genre, year, trackcount);
                     System.out.println(stub.saveNewAlbum(album));
                     break;
                 case 4:
-                    System.out.println("Alle Interpreten:");
-                    System.out.println("ArtistID - Name");
-                    System.out.println(newLine);
-                    for (Artist artist : stub.getArtists()){
-                        System.out.println(artist.toString());
+                    List<Artist> artists = stub.getArtists();
+                    if (artists.isEmpty()){
+                        System.out.println("Keine Interpreten vorhanden!");
+                    } else {
+                        System.out.println("Alle Interpreten:");
+                        System.out.println("ArtistID - Name");
+                        System.out.println(newLine);
+                        for (Artist artist : artists){
+                            System.out.println(artist.toString());
+                        }
                     }
+
                     break;
                 case 5:
                     int userInputExport = 1;
@@ -123,24 +164,35 @@ public class Client {
                                 System.out.println("1 Export-Menü anzeigen");
                                 System.out.println("2 Export als JSON");
                                 System.out.println("3 Export als CSV");
-                                System.out.println("4 Export als XML");
-                                System.out.println("5 Datenbankdump mit Daten");
-                                System.out.println("6 Datenbankdump ohne Daten");
+                                System.out.println("4 !ALPHA! Export als XML");
+                                // System.out.println("5 Datenbankdump mit Daten");
+                                // System.out.println("6 Datenbankdump ohne Daten");
                                 break;
                             case 2:
                                 exportType = ExportFactory.ExportType.JSON;
-                            case 3:
-                            case 4:
-                            case 5:
-                            case 6:
-                                System.out.println("yay");
-                                stub.export(exportType, targetPath);
                                 break;
+                            case 3:
+                                exportType = ExportFactory.ExportType.CSV;
+                                break;
+                            case 4:
+                                exportType = ExportFactory.ExportType.XML;
+                                break;
+/*                            case 5:
+                                exportType = ExportFactory.ExportType.DB_DATA;
+                                break;
+                            case 6:
+                                exportType = ExportFactory.ExportType.DB;
+                                break;*/
                             default:
                                 firstRunExport = true;
                                 userInputExport = 0;
                                 break;
                             }
+
+                        if(exportType != null){
+                            System.out.println(stub.export(exportType, targetPath));
+                            exportType = null;
+                        }
                     }
                     break;
                 case 42:

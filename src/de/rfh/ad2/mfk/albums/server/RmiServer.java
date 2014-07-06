@@ -15,6 +15,7 @@ import java.util.List;
 public interface RmiServer extends Remote{
     public String saveNewAlbum(Album album) throws RemoteException;
     public List<Album> getAlbums() throws RemoteException;
+    public Artist saveNewArtist(Artist artist) throws RemoteException;
     public List<Artist> getArtists() throws RemoteException;
     public String export(ExportFactory.ExportType exportType, String path) throws RemoteException;
 }

@@ -11,9 +11,12 @@ import java.rmi.registry.LocateRegistry;
  */
 public class StartServer {
 
+    // change datasource here:
+    private static RmiServerFactory.RmiServerType serverType = RmiServerFactory.RmiServerType.SER;
+
     public static void main(String[] args) {
         try {
-            RmiServerImpl impl = new RmiServerImpl();
+            RmiServer impl = RmiServerFactory.getInstance(serverType);
             LocateRegistry.createRegistry(1099);
             Naming.bind("rmi://localhost:1099/rmiServer", impl);
 

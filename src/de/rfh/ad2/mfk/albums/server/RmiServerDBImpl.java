@@ -16,16 +16,16 @@ import java.util.UUID;
 /**
  * Created by Kai on 29.06.2014.
  */
-public class RmiServerImpl extends UnicastRemoteObject implements RmiServer {
+public class RmiServerDBImpl extends UnicastRemoteObject implements RmiServer {
 
-    // private String driver = "org.h2.driver";
+    // private String driver = "org.h2.driver"; not needed if h2.jar is imported!?
     private String uri = "jdbc:h2:tcp://localhost/~/test";
     private String user = "mfk";
     private String pw = "mfk2014";
 
     private Connection con;
 
-    public RmiServerImpl() throws RemoteException{
+    public RmiServerDBImpl() throws RemoteException{
 
     }
 
@@ -45,6 +45,7 @@ public class RmiServerImpl extends UnicastRemoteObject implements RmiServer {
         }
     }
 
+    @Override
     public String saveNewAlbum(Album album){
         this.createConnection();
         String artistID = null;
@@ -59,17 +60,7 @@ public class RmiServerImpl extends UnicastRemoteObject implements RmiServer {
                 artistID = resultSetCheckArtist.getString("ARTISTID");
                 System.out.println("artistID found: " + artistID);
             } else {
-                String uuid = UUID.randomUUID().toString();
-                String sqlNewArtist = "INSERT INTO ARTIST(ARTISTID, NAME) VALUES(?, ?);";
-                PreparedStatement preparedStatementNewArtist = con.prepareStatement(sqlNewArtist);
-                preparedStatementNewArtist.setString(1, uuid);
-                preparedStatementNewArtist.setString(2, album.getArtist().getName());
-                int affectedRows = preparedStatementNewArtist.executeUpdate();
-
-                if(affectedRows > 0){
-                    artistID = uuid;
-                    System.out.println("artist inserted and artistID generated: " + artistID);
-                }
+                artistID = saveNewArtist(album.getArtist()).getUuid();
             }
 
             String sqlNewAlbum = "INSERT INTO ALBUM ( ALBUMID , ARTIST , TITLE , GENRE , YEAR , TRACKCOUNT ) VALUES (RANDOM_UUID(),?,?,?,PARSEDATETIME(?, 'yyyy'), ?) ;";
@@ -83,15 +74,18 @@ public class RmiServerImpl extends UnicastRemoteObject implements RmiServer {
             preparedStatementNewAlbum.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (RemoteException e) {
+            e.printStackTrace();
         }
 
         // TODO select album to get this output? or somehow the albumid?
         Artist artist = album.getArtist();
         artist.setUuid(artistID);
         album.setArtist(artist);
-        return album.toString() + " erfolgreich in die Datenbank geschrieben!";
+        return album.toString().concat(" erfolgreich in die Datenbank geschrieben!");
     }
 
+    @Override
     public List<Album> getAlbums(){
         List<Album> albums = new ArrayList<Album>();
         this.createConnection();
@@ -111,6 +105,30 @@ public class RmiServerImpl extends UnicastRemoteObject implements RmiServer {
         return albums;
     }
 
+    @Override
+    public Artist saveNewArtist(Artist artist) throws RemoteException {
+        if(artist.getUuid() == null){
+            artist.setUuid(UUID.randomUUID().toString());
+        }
+
+        try {
+            String sqlNewArtist = "INSERT INTO ARTIST(ARTISTID, NAME) VALUES(?, ?);";
+            PreparedStatement preparedStatementNewArtist = con.prepareStatement(sqlNewArtist);
+            preparedStatementNewArtist.setString(1, artist.getUuid());
+            preparedStatementNewArtist.setString(2, artist.getName());
+            int affectedRows = preparedStatementNewArtist.executeUpdate();
+
+            if(affectedRows > 0){
+                System.out.println("artist inserted and artistID generated: " + artist.getUuid());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return artist;
+    }
+
+    @Override
     public List<Artist> getArtists() throws RemoteException {
         List<Artist> artists = new ArrayList<Artist>();
         this.createConnection();

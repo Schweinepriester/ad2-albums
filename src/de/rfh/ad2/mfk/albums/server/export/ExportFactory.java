@@ -11,12 +11,12 @@ public class ExportFactory {
         ExportService exportService = null;
         switch (exportType){
             case JSON: exportService = new Export2JSON(); break;
-            case CSV:
-            case XML:
+            case CSV: exportService = new Export2CSV(); break;
+            case XML: exportService = new Export2XML(); break;
             case DB_DATA:
             case DB:
             default:
-                // TODO thro exception
+                // TODO throw exception
                 break;
         }
         return exportService;
