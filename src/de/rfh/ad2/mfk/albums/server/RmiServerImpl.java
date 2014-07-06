@@ -130,9 +130,8 @@ public class RmiServerImpl extends UnicastRemoteObject implements RmiServer {
     }
 
     @Override
-    public String export(ExportFactory.ExportType exportType) throws RemoteException{
+    public String export(ExportFactory.ExportType exportType, String path) throws RemoteException{
         ExportService exportService = ExportFactory.getInstance(exportType);
-        exportService.export(getAlbums(), "C:\\temp_kai\\");
-        return null;
+        return exportService.export(getArtists(), getAlbums(), path);
     }
 }

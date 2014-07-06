@@ -21,6 +21,7 @@ public class Client {
 
     public static void main(String[] args) throws RemoteException, NotBoundException, MalformedURLException {
         RmiServer stub = (RmiServer) Naming.lookup("rmi://localhost:1099/rmiServer");
+        String targetPath = "C:\\temp_kai\\";
 
         int userInput = 1;
         boolean firstRun = true;
@@ -133,7 +134,7 @@ public class Client {
                             case 5:
                             case 6:
                                 System.out.println("yay");
-                                stub.export(exportType);
+                                stub.export(exportType, targetPath);
                                 break;
                             default:
                                 firstRunExport = true;
