@@ -23,6 +23,9 @@ public class Client {
 
     public static void main(String[] args) throws RemoteException, NotBoundException, MalformedURLException {
         RmiServer stub = (RmiServer) Naming.lookup("rmi://localhost:1099/rmiServer");
+        // Mac
+        // String targetPath = "/Users/kaihollberg/Desktop/temp_kai";
+        // Windows
         String targetPath = "C:\\temp_kai\\";
 
         int userInput = 1;
