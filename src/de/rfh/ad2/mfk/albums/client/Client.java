@@ -21,6 +21,14 @@ import java.util.Scanner;
  */
 public class Client {
 
+    /**
+     * 
+     * @param args
+     * @throws RemoteException
+     * @throws NotBoundException
+     * @throws MalformedURLException
+     */
+
     public static void main(String[] args) throws RemoteException, NotBoundException, MalformedURLException {
         RmiServer stub = (RmiServer) Naming.lookup("rmi://localhost:1099/rmiServer");
         // Mac
