@@ -1,7 +1,7 @@
 package de.rfh.ad2.mfk.albums.server.export;
 
 /**
- * Created by Kai on 03.07.2014.
+ * Created by MFK on 03.07.2014.
  */
 public class ExportFactory {
 

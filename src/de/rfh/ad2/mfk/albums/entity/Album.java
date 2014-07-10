@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * Created by Kai on 26.06.2014.
+ * Created by MFK on 26.06.2014.
  */
 @XmlRootElement
 public class Album implements Serializable{

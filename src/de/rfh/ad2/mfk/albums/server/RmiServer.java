@@ -9,7 +9,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 /**
- * Created by Kai on 29.06.2014.
+ * Created by MFK on 29.06.2014.
  */
 public interface RmiServer extends Remote{
     public String saveNewAlbum(Album album) throws RemoteException;

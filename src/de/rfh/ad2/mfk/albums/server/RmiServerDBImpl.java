@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by Kai on 29.06.2014.
+ * Created by MFK on 29.06.2014.
  */
 public class RmiServerDBImpl extends UnicastRemoteObject implements RmiServer {
 

@@ -3,7 +3,7 @@ package de.rfh.ad2.mfk.albums.server;
 import java.rmi.RemoteException;
 
 /**
- * Created by Kai on 06.07.2014.
+ * Created by MFK on 06.07.2014.
  */
 public class RmiServerFactory {
 

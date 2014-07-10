@@ -7,7 +7,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
 /**
- * Created by Kai on 29.06.2014.
+ * Created by MFK on 29.06.2014.
  */
 public class StartServer {
 

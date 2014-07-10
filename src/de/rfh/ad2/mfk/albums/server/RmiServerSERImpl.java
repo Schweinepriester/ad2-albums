@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by Kai on 06.07.2014.
+ * Created by MFK on 06.07.2014.
  */
 public class RmiServerSERImpl extends UnicastRemoteObject implements RmiServer {
 

@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Kai on 06.07.2014.
+ * Created by MFK on 06.07.2014.
  */
 public class Export2CSV implements ExportService {
 

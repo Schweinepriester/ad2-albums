@@ -9,7 +9,7 @@ import javax.xml.bind.Marshaller;
 import java.util.List;
 
 /**
- * Created by Kai on 06.07.2014.
+ * Created by MFK on 06.07.2014.
  */
 public class Export2XML implements ExportService {
 
@@ -17,6 +17,7 @@ public class Export2XML implements ExportService {
     public String export(List<Artist> artists, List<Album> albums, String exportPath) {
 
         try {
+            // via http://openbook.galileocomputing.de/javainsel/javainsel_16_004.html
             JAXBContext context = JAXBContext.newInstance(Album.class);
             Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);

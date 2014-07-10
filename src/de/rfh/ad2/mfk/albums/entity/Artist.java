@@ -4,7 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 
 /**
- * Created by kho on 26.06.2014.
+ * Created by MFK on 26.06.2014.
  */
 @XmlRootElement
 public class Artist implements Serializable{

@@ -17,12 +17,12 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Created by Kai on 29.06.2014.
+ * Created by MFK on 29.06.2014.
  */
 public class Client {
 
     /**
-     * 
+     *
      * @param args
      * @throws RemoteException
      * @throws NotBoundException
@@ -79,7 +79,7 @@ public class Client {
                         System.out.println("Alle Alben:");
                         System.out.println("ArtistID - Name - AlbumID - Titel - Genre - Erscheinungsjahr - Anzahl Tracks");
                         System.out.println(newLine);
-                        for(Album album : stub.getAlbums()){
+                        for(Album album : albums){
                             System.out.println(album.toString());
                         }
                     }
@@ -194,8 +194,10 @@ public class Client {
                                 exportType = ExportFactory.ExportType.DB;
                                 break;*/
                             default:
+                                System.out.println("Das war keine gültige Option!");
+                                System.out.println(newLine);
                                 firstRunExport = true;
-                                userInputExport = 0;
+                                userInputExport = 1;
                                 break;
                             }
 
@@ -209,8 +211,10 @@ public class Client {
                     System.out.println("Easteregg! :)");
                     break;
                 default:
+                    System.out.println("Das war keine gültige Option!");
+                    System.out.println(newLine);
                     firstRun = true;
-                    userInput = 0;
+                    userInput = 1;
                     break;
                 }
         }
