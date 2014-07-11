@@ -17,7 +17,11 @@ import java.util.UUID;
  */
 public class RmiServerSERImpl extends UnicastRemoteObject implements RmiServer {
 
+    // Mac
+    // String targetPath = "/Users/kaihollberg/Desktop/temp_kai";
+    // Windows
     private String path = "C:\\temp_kai\\";
+
     private String albumsSERFile = "albums.ser";
     private String artistsSERFile = "artists.ser";
 

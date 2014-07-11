@@ -63,9 +63,9 @@ public class Client {
                     userInput = -1;
                     break;
                 case 1:
-                    System.out.println("Menu");
+                    System.out.println("Hauptmenü");
                     System.out.println("0 Exit");
-                    System.out.println("1 Menu anzeigen");
+                    System.out.println("1 Hauptmenü anzeigen");
                     System.out.println("2 Alle Alben anzeigen");
                     System.out.println("3 Album eintragen");
                     System.out.println("4 Alle Interpreten anzeigen");
@@ -112,11 +112,14 @@ public class Client {
                     try {
                         System.out.print("Trackanzahl: ");
                         trackcount = scanner.nextInt();
+                        if(trackcount < 1){
+                            throw new InputMismatchException();
+                        }
                     } catch (InputMismatchException e){
                         // e.printStackTrace();
                         scanner = new Scanner(System.in);
                         System.out.println(newLine);
-                        System.out.println("Das war wohl keine Zahl! Versuchs nochmal :)");
+                        System.out.println("Das war wohl keine gültige Zahl! Versuchs nochmal :)");
                         System.out.println(newLine);
                         firstRun = true;
                         userInput = 1;
@@ -169,14 +172,12 @@ public class Client {
                                 firstRun = true;
                                 break;
                             case 1:
-                                System.out.println("Menu > Export");
+                                System.out.println("Hauptmenü > Export-Menü");
                                 System.out.println("0 Zurück zum Hauptmenü");
                                 System.out.println("1 Export-Menü anzeigen");
                                 System.out.println("2 Export als JSON");
                                 System.out.println("3 Export als CSV");
                                 System.out.println("4 !ALPHA! Export als XML");
-                                // System.out.println("5 Datenbankdump mit Daten");
-                                // System.out.println("6 Datenbankdump ohne Daten");
                                 break;
                             case 2:
                                 exportType = ExportFactory.ExportType.JSON;
@@ -187,12 +188,6 @@ public class Client {
                             case 4:
                                 exportType = ExportFactory.ExportType.XML;
                                 break;
-/*                            case 5:
-                                exportType = ExportFactory.ExportType.DB_DATA;
-                                break;
-                            case 6:
-                                exportType = ExportFactory.ExportType.DB;
-                                break;*/
                             default:
                                 System.out.println("Das war keine gültige Option!");
                                 System.out.println(newLine);

@@ -47,6 +47,7 @@ public class RmiServerDBImpl extends UnicastRemoteObject implements RmiServer {
 
     @Override
     public String saveNewAlbum(Album album){
+        album.setUuid(UUID.randomUUID().toString());
         this.createConnection();
         String artistID = null;
 
@@ -63,14 +64,15 @@ public class RmiServerDBImpl extends UnicastRemoteObject implements RmiServer {
                 artistID = saveNewArtist(album.getArtist()).getUuid();
             }
 
-            String sqlNewAlbum = "INSERT INTO ALBUM ( ALBUMID , ARTIST , TITLE , GENRE , YEAR , TRACKCOUNT ) VALUES (RANDOM_UUID(),?,?,?,PARSEDATETIME(?, 'yyyy'), ?) ;";
+            String sqlNewAlbum = "INSERT INTO ALBUM ( ALBUMID , ARTIST , TITLE , GENRE , YEAR , TRACKCOUNT ) VALUES (?,?,?,?,PARSEDATETIME(?, 'yyyy'), ?) ;";
             PreparedStatement preparedStatementNewAlbum = con.prepareStatement(sqlNewAlbum);
-            preparedStatementNewAlbum.setString(1, artistID);
-            preparedStatementNewAlbum.setString(2, album.getAlbumTitle());
-            preparedStatementNewAlbum.setString(3, album.getGenre());
+            preparedStatementNewAlbum.setString(1, album.getUuid());
+            preparedStatementNewAlbum.setString(2, artistID);
+            preparedStatementNewAlbum.setString(3, album.getAlbumTitle());
+            preparedStatementNewAlbum.setString(4, album.getGenre());
             SimpleDateFormat format = new SimpleDateFormat("yyyy");
-            preparedStatementNewAlbum.setString(4, format.format(album.getReleaseYear()));
-            preparedStatementNewAlbum.setInt(5, album.getTrackCount());
+            preparedStatementNewAlbum.setString(5, format.format(album.getReleaseYear()));
+            preparedStatementNewAlbum.setInt(6, album.getTrackCount());
             preparedStatementNewAlbum.execute();
         } catch (SQLException e) {
             e.printStackTrace();

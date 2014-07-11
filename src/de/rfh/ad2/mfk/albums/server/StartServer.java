@@ -12,7 +12,7 @@ import java.rmi.registry.LocateRegistry;
 public class StartServer {
 
     // change datasource here:
-    private static RmiServerFactory.RmiServerType serverType = RmiServerFactory.RmiServerType.SER;
+    private static RmiServerFactory.RmiServerType serverType = RmiServerFactory.RmiServerType.DB;
 
     public static void main(String[] args) {
         try {
