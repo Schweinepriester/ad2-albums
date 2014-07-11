@@ -11,7 +11,9 @@ import java.rmi.registry.LocateRegistry;
  */
 public class StartServer {
 
-    // change datasource here:
+    /**
+     * change datasource here, for options see {@link de.rfh.ad2.mfk.albums.server.RmiServerFactory.RmiServerType}
+     */
     private static RmiServerFactory.RmiServerType serverType = RmiServerFactory.RmiServerType.DB;
 
     public static void main(String[] args) {

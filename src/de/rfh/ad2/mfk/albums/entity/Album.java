@@ -11,11 +11,29 @@ import java.util.Date;
  */
 @XmlRootElement
 public class Album implements Serializable{
+    /**
+     * uuid of the album as string
+     */
     private String uuid;
+    /**
+     * artist of the album as Artist-object
+     */
     private Artist artist;
+    /**
+     * title of the album
+     */
     private String albumTitle;
+    /**
+     * genre of the album
+     */
     private String genre;
+    /**
+     * release year of the album
+     */
     private Date releaseYear;
+    /**
+     * track count of the album
+     */
     private int trackCount;
 
     public Album(String artist, String albumTitle, String genre, String releaseYear, int trackCount) {

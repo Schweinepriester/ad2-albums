@@ -8,7 +8,13 @@ import java.io.Serializable;
  */
 @XmlRootElement
 public class Artist implements Serializable{
+    /**
+     * uuid of the artist as string
+     */
     private String uuid;
+    /**
+     * name of the artist
+     */
     private String name;
 
     public Artist(String name) {

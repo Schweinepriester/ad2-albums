@@ -17,11 +17,15 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Created by MFK on 29.06.2014.
+ * Client for the user.
+ *
+ * @author MFK
+ * @since 29.06.2014.
  */
 public class Client {
 
     /**
+     * Contains variables for the export path and rmi-server-url
      *
      * @param args
      * @throws RemoteException
@@ -30,11 +34,16 @@ public class Client {
      */
 
     public static void main(String[] args) throws RemoteException, NotBoundException, MalformedURLException {
+        /**
+         * RMI server which will be used
+         */
         RmiServer stub = (RmiServer) Naming.lookup("rmi://localhost:1099/rmiServer");
-        // Mac
-        // String targetPath = "/Users/kaihollberg/Desktop/temp_kai";
-        // Windows
-        String targetPath = "C:\\temp_kai\\";
+
+        /**
+         * define where to export, e.g. JSON or CSV
+         */
+        String targetPath = "C:\\temp_kai\\"; // Windows
+        // String targetPath = "/Users/kaihollberg/Desktop/temp_kai"; // Mac
 
         int userInput = 1;
         boolean firstRun = true;
