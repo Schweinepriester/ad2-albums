@@ -19,8 +19,17 @@ import java.util.UUID;
 public class RmiServerDBImpl extends UnicastRemoteObject implements RmiServer {
 
     // private String driver = "org.h2.driver"; not needed if h2.jar is imported!?
+    /**
+     * configure jdbc database uri
+     */
     private String uri = "jdbc:h2:tcp://localhost/~/test";
+    /**
+     * configure database user
+     */
     private String user = "mfk";
+    /**
+     * configure database password
+     */
     private String pw = "mfk2014";
 
     private Connection con;
