@@ -21,7 +21,7 @@ public class RmiServerSERImpl extends UnicastRemoteObject implements RmiServer {
      * define where to store the .ser files
      */
     private String path = "C:\\temp_kai\\"; // Windows
-    // String targetPath = "/Users/kaihollberg/Desktop/temp_kai"; // Mac
+    // private String path = "/Users/kaihollberg/Desktop/temp_kai"; // Mac
 
     private String albumsSERFile = "albums.ser";
     private String artistsSERFile = "artists.ser";
