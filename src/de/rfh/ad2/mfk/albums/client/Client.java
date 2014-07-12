@@ -43,7 +43,7 @@ public class Client {
          * define where to export, e.g. JSON or CSV
          */
         String targetPath = "C:\\temp_kai\\"; // Windows
-        // String targetPath = "/Users/kaihollberg/Desktop/temp_kai"; // Mac
+        // String targetPath = "/Users/kaihollberg/Desktop/temp_kai/"; // Mac
 
         int userInput = 1;
         boolean firstRun = true;
